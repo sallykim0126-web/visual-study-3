@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>A Day at the Office</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+
+      background: black;
+
+      font-family: Arial, sans-serif;
+    }
+
+
+    body {
+      overflow-x: hidden;
+    }
+
+    /* =========================================
+   NEXT DAY 버튼
+   ========================================= */
+
+#nextDayButton {
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 300;
+
+  padding: 16px 30px;
+
+  border: 1px solid rgba(255, 255, 255, 0.7);
+
+  border-radius: 30px;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  color: white;
+
+  font-size: 18px;
+
+  letter-spacing: 4px;
+
+  cursor: pointer;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  backdrop-filter: blur(6px);
+
+  transition: background 0.2s ease;
+}
+
+#nextDayButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+
+
+    /* =========================================
+       전체 화면
+       ========================================= */
+
+    .office {
+
+      width: 100%;
+      height: 100vh;
+
+      position: relative;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      overflow: hidden;
+
+      background: black;
+
+    }
+
+
+
+    /* =========================================
+       이미지가 들어가는 무대
+       ========================================= */
+
+    .stage {
+
+      position: relative;
+
+      width: min(
+        100vw,
+        calc(100vh * 1672 / 941)
+      );
+
+      aspect-ratio: 1672 / 941;
+
+      overflow: hidden;
+
+      background:black;
+
+      
+
+    }
+
+
+
+    /* =========================================
+       모든 장면 이미지
+       ========================================= */
+
+    .scene {
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+    }
+
+
+
+    /* 첫 번째 장면만 처음부터 보이게 */
+
+    .scene01 {
+      opacity: 1;
+    }
+
+
+
+    /* =========================================
+       처음 SCROLL 안내
+       ========================================= */
+
+    .scroll-guide {
+
+      position: absolute;
+
+      left: 50%;
+      bottom: 35px;
+
+      transform: translateX(-50%);
+
+      z-index: 100;
+
+      color: white;
+
+      font-size: 14px;
+
+      letter-spacing: 3px;
+
+      padding: 10px 18px;
+
+      border-radius: 30px;
+
+      background: rgba(0, 0, 0, 0.38);
+
+      backdrop-filter: blur(5px);
+
+      pointer-events: none;
+
+    }
+
+
+
+    /* =========================================
+       투명 클릭 영역
+       ========================================= */
+
+    .hotspot {
+
+      position: absolute;
+
+      z-index: 200;
+
+      padding: 0;
+      margin: 0;
+
+      border: none;
+
+      background: transparent;
+
+      cursor: pointer;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+    }
+    
+
+
+
+    /* =========================================
+       10번 이미지
+       빨간 닫기 버튼 위치
+       ========================================= */
+
+    #closeMailButton {
+
+      left: 20.4%;
+      top: 10.1%;
+
+      width: 1.6%;
+      height: 2.8%;
+
+    }
+
+
+
+    /* =========================================
+       11번 이미지
+       왼쪽 위 Apple 로고 위치
+       ========================================= */
+
+    #appleButton {
+
+      left: 12.6%;
+      top: 9.7%;
+
+      width: 1.7%;
+      height: 3.3%;
+
+    }
+
+
+
+    /* =========================================
+       12번 이미지
+       Apple 메뉴 안 '시스템 종료...' 위치
+       ========================================= */
+
+    #menuShutdownButton {
+
+      left: 12.7%;
+      top: 32.6%;
+
+      width: 14.4%;
+      height: 4.2%;
+
+    }
+
+
+
+    /* =========================================
+       13번 이미지
+       확인창의 파란 '시스템 종료' 버튼 위치
+       ========================================= */
+
+    #confirmShutdownButton {
+
+      left: 54.6%;
+      top: 49.4%;
+
+      width: 8.4%;
+      height: 4.5%;
+
+    }
+
+    /* =========================================
+       01 ~ 10 스크롤 섹션
+       ========================================= *//* =========================================
+   NEXT DAY 버튼
+   ========================================= */
+
+#nextDayButton {
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 300;
+
+  padding: 16px 30px;
+
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 30px;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  color: white;
+
+  font-size: 18px;
+
+  letter-spacing: 4px;
+
+  cursor: pointer;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  backdrop-filter: blur(6px);
+
+}
+
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+
+
+  <section class="office">
+
+
+    <div class="stage">
+
+
+      <!-- 01 -->
+
+      <img
+        src="images/01.png"
+        class="scene scene01"
+        alt=""
+      >
+
+
+      <!-- 02 -->
+
+      <img
+        src="images/02.png"
+        class="scene scene02"
+        alt=""
+      >
+
+
+      <!-- 03 -->
+
+      <img
+        src="images/03.png"
+        class="scene scene03"
+        alt=""
+      >
+
+
+      <!-- 04 -->
+
+      <img
+        src="images/04.png"
+        class="scene scene04"
+        alt=""
+      >
+
+
+      <!-- 05 -->
+
+      <img
+        src="images/05.png"
+        class="scene scene05"
+        alt=""
+      >
+
+
+      <!-- 06 -->
+
+      <img
+        src="images/06.png"
+        class="scene scene06"
+        alt=""
+      >
+
+
+      <!-- 07 -->
+
+      <img
+        src="images/07.png"
+        class="scene scene07"
+        alt=""
+      >
+
+
+      <!-- 08 -->
+
+      <img
+        src="images/08.png"
+        class="scene scene08"
+        alt=""
+      >
+
+
+      <!-- 09 -->
+
+      <img
+        src="images/09.png"
+        class="scene scene09"
+        alt=""
+      >
+
+
+      <!-- 10 : 메일창 -->
+
+      <img
+        src="images/10.png"
+        class="scene scene10"
+        alt=""
+      >
+
+
+      <!-- 11 : 메일 닫은 후 / 바탕화면 -->
+
+      <img
+        src="images/11.png"
+        class="scene scene11"
+        alt=""
+      >
+
+
+      <!-- 12 : Apple 메뉴 펼쳐짐 -->
+
+      <img
+        src="images/12.png"
+        class="scene scene12"
+        alt=""
+      >
+
+
+      <!-- 13 : 시스템 종료 확인창 -->
+
+      <img
+        src="images/13.png"
+        class="scene scene13"
+        alt=""
+      >
+
+
+      <!-- 14 : 컴퓨터 화면 꺼짐 -->
+
+      <img
+        src="images/14.png"
+        class="scene scene14"
+        alt=""
+      >
+
+
+
+      <!-- 처음 SCROLL 안내 -->
+
+      <div class="scroll-guide">
+
+        SCROLL TO PASS TIME ↓
+
+      </div>
+
+
+
+      <!-- 10번 이미지 빨간 닫기 버튼 -->
+
+      <button
+        id="closeMailButton"
+        class="hotspot"
+        aria-label="메일 닫기">
+      </button>
+
+
+
+      <!-- 11번 이미지 Apple 로고 -->
+
+      <button
+        id="appleButton"
+        class="hotspot"
+        aria-label="Apple 메뉴 열기">
+      </button>
+
+
+
+      <!-- 12번 이미지 Apple 메뉴의 시스템 종료 -->
+
+      <button
+        id="menuShutdownButton"
+        class="hotspot"
+        aria-label="시스템 종료 메뉴 선택">
+      </button>
+
+
+
+      <!-- 13번 이미지 확인창의 시스템 종료 -->
+
+      <button
+        id="confirmShutdownButton"
+        class="hotspot"
+        aria-label="시스템 종료 확인">
+      </button>
+
+      <!-- 마지막 장면 NEXT DAY 버튼 -->
+
+<button
+  id="nextDayButton">
+  NEXT DAY
+</button>
+
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- GSAP -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js">
+  </script>
+
+
+  <!-- ScrollTrigger -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js">
+  </script>
+
+
+
+  <script>
+
+
+    /* =========================================
+       ScrollTrigger 활성화
+       ========================================= */
+
+    gsap.registerPlugin(ScrollTrigger);
+
+
+
+    /* =========================================
+       필요한 요소 가져오기
+       ========================================= */
+
+    const closeMailButton =
+      document.querySelector("#closeMailButton");
+
+    const appleButton =
+      document.querySelector("#appleButton");
+
+    const menuShutdownButton =
+      document.querySelector("#menuShutdownButton");
+
+    const confirmShutdownButton =
+      document.querySelector("#confirmShutdownButton");
+
+    const nextDayButton =
+      document.querySelector("#nextDayButton");
+
+
+    const scene10 =
+      document.querySelector(".scene10");
+
+    const scene11 =
+      document.querySelector(".scene11");
+
+    const scene12 =
+      document.querySelector(".scene12");
+
+    const scene13 =
+      document.querySelector(".scene13");
+
+    const scene14 =
+      document.querySelector(".scene14");
+
+
+
+    /* =========================================
+       클릭 인터랙션 시작 여부
+
+       반드시 timeline보다 위에 있어야 함
+       ========================================= */
+
+    let interactionStarted = false;
+
+
+
+    /* =========================================
+       01 ~ 10 스크롤 타임라인
+       ========================================= */
+
+    const timeline = gsap.timeline({
+
+      scrollTrigger: {
+
+        trigger: ".office",
+
+        start: "top top",
+
+        end: "+=9000",
+
+        scrub: true,
+
+        pin: true,
+
+        anticipatePin: 1,
+
+
+        /* 10번 장면에 도착하면
+           빨간 버튼 클릭 가능 */
+
+        onUpdate: function(self) {
+
+
+          if (!interactionStarted) {
+
+
+            if (self.progress > 0.98) {
+
+              closeMailButton.style.opacity = "1";
+
+              closeMailButton.style.pointerEvents = "auto";
+
+            }
+
+
+            else {
+
+              closeMailButton.style.opacity = "0";
+
+              closeMailButton.style.pointerEvents = "none";
+
+            }
+
+
+          }
+
+
+        }
+
+
+      }
+
+
+    });
+
+
+
+    /* =========================================
+       01 화면 유지
+       ========================================= */
+
+    timeline.to({}, {
+      duration: 1.8
+    });
+
+
+
+    /* =========================================
+       01 → 02
+       ========================================= */
+
+    timeline.set(".scene01", {
+      opacity: 0
+    });
+
+    timeline.set(".scene02", {
+      opacity: 1
+    });
+
+    timeline.to({}, {
+      duration: 1.8
+    });
+
+
+
+    /* =========================================
+       02 → 03
+       ========================================= */
+
+    timeline.set(".scene02", {
+      opacity: 0
+    });
+
+    timeline.set(".scene03", {
+      opacity: 1
+    });
+
+    timeline.to({}, {
+      duration: 1.8
+    });
+
+
+
+    /* =========================================
+       03 → 04
+       ========================================= */
+
+    timeline.set(".scene03", {
+      opacity: 0
+    });
+
+    timeline.set(".scene04", {
+      opacity: 1
+    });
+
+    timeline.to({}, {
+      duration: 1.8
+    });
+
+
+
+    /* =========================================
+       04 → 05
+       ========================================= */
+
+    timeline.set(".scene04", {
+      opacity: 0
+    });
+
+    timeline.set(".scene05", {
+      opacity: 1
+    });
+
+    timeline.to({}, {
+      duration: 1.8
+    });
+
+
+
+    /* =========================================
+       05 → 06
+       ========================================= */
+
+    timeline.set(".scene05", {
+      opacity: 0
+    });
+
+    timeline.set(".scene06", {
+      opacity: 1
+    });
+
+    timeline.to({}, {
+      duration: 1.8
+    });
+
+
+
+    /* =========================================
+       06 → 07
+       ========================================= */
+
+    timeline.set(".scene06", {
+      opacity: 0
+    });
+
+    timeline.set(".scene07", {
+      opacity: 1
+    });
+
+    timeline.to({}, {
+      duration: 1.8
+    });
+
+
+
+    /* =========================================
+       07 → 08
+       ========================================= */
+
+    timeline.set(".scene07", {
+      opacity: 0
+    });
+
+    timeline.set(".scene08", {
+      opacity: 1
+    });
+
+    timeline.to({}, {
+      duration: 1.8
+    });
+
+
+
+    /* =========================================
+       08 → 09
+       ========================================= */
+
+    timeline.set(".scene08", {
+      opacity: 0
+    });
+
+    timeline.set(".scene09", {
+      opacity: 1
+    });
+
+    timeline.to({}, {
+      duration: 1.8
+    });
+
+
+
+    /* =========================================
+       09 → 10
+       ========================================= */
+
+    timeline.set(".scene09", {
+      opacity: 0
+    });
+
+    timeline.set(".scene10", {
+      opacity: 1
+    });
+
+
+
+    /* =========================================
+       10번 화면 유지
+       ========================================= */
+
+    timeline.to({}, {
+      duration: 2
+    });
+
+
+
+
+
+    /* =========================================
+       SCROLL 문구
+
+       처음에는 보이고
+       스크롤 시작하면 바로 사라짐
+       ========================================= */
+
+    let scrollGuideHidden = false;
+
+
+    window.addEventListener(
+      "scroll",
+      function () {
+
+
+        if (
+          !scrollGuideHidden &&
+          window.scrollY > 5
+        ) {
+
+
+          scrollGuideHidden = true;
+
+
+          gsap.to(
+            ".scroll-guide",
+            {
+
+              opacity: 0,
+
+              duration: 0.2,
+
+              ease: "power2.out",
+
+              onComplete: function () {
+
+                document
+                  .querySelector(".scroll-guide")
+                  .style.display = "none";
+
+              }
+
+            }
+          );
+
+
+        }
+
+
+      }
+    );
+
+
+
+    /* =========================================
+       10번 장면
+
+       빨간 닫기 버튼 클릭
+       → 11번 바탕화면
+       ========================================= */
+
+    closeMailButton.addEventListener(
+      "click",
+      function () {
+
+
+        interactionStarted = true;
+
+
+        closeMailButton.style.pointerEvents = "none";
+        closeMailButton.style.opacity = "0";
+
+
+        /* 10번 메일창 사라짐 */
+
+        gsap.to(
+          scene10,
+          {
+
+            opacity: 0,
+
+            duration: 0.18,
+
+            ease: "none"
+
+          }
+        );
+
+
+        /* 11번 바탕화면 등장 */
+
+        gsap.to(
+          scene11,
+          {
+
+            opacity: 1,
+
+            duration: 0.35,
+
+            ease: "power1.out",
+
+            onComplete: function () {
+
+
+              /* Apple 로고 클릭 가능 */
+
+              appleButton.style.opacity = "1";
+
+              appleButton.style.pointerEvents = "auto";
+
+
+            }
+
+
+          }
+        );
+
+
+      }
+    );
+
+
+
+    /* =========================================
+       11번 장면
+
+       Apple 로고 클릭
+       → 12번 Apple 메뉴 펼쳐짐
+       ========================================= */
+
+    appleButton.addEventListener(
+      "click",
+      function () {
+
+
+        appleButton.style.pointerEvents = "none";
+        appleButton.style.opacity = "0";
+
+
+        /* 11번 숨김 */
+
+        gsap.set(
+          scene11,
+          {
+            opacity: 0
+          }
+        );
+
+
+        /* 12번 Apple 메뉴 화면 */
+
+        gsap.set(
+          scene12,
+          {
+            opacity: 1
+          }
+        );
+
+
+        /* 시스템 종료 메뉴 클릭 가능 */
+
+        menuShutdownButton.style.opacity = "1";
+
+        menuShutdownButton.style.pointerEvents = "auto";
+
+
+      }
+    );
+
+
+
+    /* =========================================
+       12번 장면
+
+       Apple 메뉴의 '시스템 종료...' 클릭
+       → 13번 시스템 종료 확인창
+       ========================================= */
+
+    menuShutdownButton.addEventListener(
+      "click",
+      function () {
+
+
+        menuShutdownButton.style.pointerEvents = "none";
+        menuShutdownButton.style.opacity = "0";
+
+
+        /* Apple 메뉴 화면 숨김 */
+
+        gsap.set(
+          scene12,
+          {
+            opacity: 0
+          }
+        );
+
+
+        /* 종료 확인창 등장 */
+
+        gsap.to(
+          scene13,
+          {
+
+            opacity: 1,
+
+            duration: 0.35,
+
+            ease: "power1.out",
+
+            onComplete: function () {
+
+
+              /* 파란 시스템 종료 버튼 활성화 */
+
+              confirmShutdownButton.style.opacity = "1";
+
+              confirmShutdownButton.style.pointerEvents = "auto";
+
+
+            }
+
+
+          }
+        );
+
+
+      }
+    );
+
+
+
+    /* =========================================
+       13번 장면
+
+       확인창의 파란 '시스템 종료' 클릭
+       → 14번 화면 꺼짐
+       ========================================= */
+
+    confirmShutdownButton.addEventListener(
+      "click",
+      function () {
+
+
+        confirmShutdownButton.style.pointerEvents = "none";
+        confirmShutdownButton.style.opacity = "0";
+
+
+        /* 종료 확인창 사라짐 */
+
+        gsap.to(
+          scene13,
+          {
+
+            opacity: 0,
+
+            duration: 0.25,
+
+            ease: "power1.in"
+
+          }
+        );
+
+
+        /* 화면 꺼짐 */
+
+       gsap.to(
+  scene14,
+  {
+
+    opacity: 1,
+
+    duration: 0.8,
+
+    ease: "power2.inOut",
+
+    onComplete: function () {
+
+      nextDayButton.style.pointerEvents = "auto";
+
+      gsap.to(
+        nextDayButton,
+        {
+
+          opacity: 1,
+
+          duration: 0.6,
+
+          ease: "power2.out"
+
+        }
+      );
+
+    }
+
+  }
+);
+
+
+      }
+    );
+
+    /* =========================================
+   NEXT DAY
+   → 처음부터 다시 시작
+   ========================================= */
+
+nextDayButton.addEventListener(
+  "click",
+  function () {
+
+    nextDayButton.style.pointerEvents = "none";
+
+
+    gsap.to(
+      nextDayButton,
+      {
+
+        opacity: 0,
+
+        duration: 0.3,
+
+        onComplete: function () {
+
+          window.scrollTo(0, 0);
+
+          location.reload();
+
+        }
+
+      }
+    );
+
+  }
+);
+
+
+  </script>
+
+
+</body>
+
+</html>
